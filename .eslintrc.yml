@@ -1,0 +1,15 @@
+extends: airbnb-base
+
+globals:
+  contract: true
+  it: true
+  assert: true
+  contracts: true
+  accounts: true
+  web3: true
+  contest: true
+  artifacts: true
+  beforeEach: true
+  afterEach: true
+  describe: true
+  before: true

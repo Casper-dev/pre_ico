@@ -1,0 +1,65 @@
+stages:
+  - test
+  - build
+
+cache:
+  key: packages
+  untracked: true
+  paths:
+    - node_modules/
+    - /usr/local/lib/node_modules
+    - /usr/lib/node_modules
+
+#prepare:
+#  type: prepare
+#  image: node:8.1.0
+#  script:
+#    - ls
+#    - cd $(npm root -g)/npm && npm install nan
+#    - npm install
+#    - npm install
+#    - npm i -g ethereumjs-testrpc
+#  artifacts:
+#    paths:
+#    - node_modules
+#    - /usr/local/lib/node_modules
+#    - /usr/lib/node_modules
+
+## TODO: refactor second npm install
+test:
+  type: test
+  image: node:8.1.0
+  script:
+    - yarn
+    - npm i -g ethereumjs-testrpc
+    - testrpc --seed 0 &
+    - npm run lint
+    - npm run test
+  cache:
+    key: packages
+    paths:
+      - node_modules/
+      - /usr/local/lib/node_modules
+      - /usr/lib/node_modules
+
+build:
+  type: build
+  image: limansky/node-python-solc:v0.1.2
+  script:
+    - npm i --only-prod
+    - alias python='/usr/bin/python3.6'
+    - mkdir artifacts
+    - python flattener/solidity_flattener.py --output ./artifacts/Casper.sol contracts/Casper.sol
+    - WALLET=${WALLET} INFURA=${INFURA} node ./scripts_for_deploy/deploy.js
+    - WALLET=${WALLET} INFURA=${INFURA} node ./scripts_for_deploy/setTrusted.js
+    - WALLET=${WALLET} INFURA=${INFURA} node ./scripts_for_deploy/sendPresale.js
+    - WALLET=${WALLET} INFURA=${INFURA} node ./scripts_for_deploy/setOwner.js
+  cache:
+    key: packages
+    paths:
+      - node_modules/
+      - /usr/local/lib/node_modules
+      - /usr/lib/node_modules
+  artifacts:
+    paths:
+    - ./artifacts

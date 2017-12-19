@@ -1,0 +1,1 @@
+deploy: node ./scripts_for_deploy/deploy.js

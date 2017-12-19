@@ -1,0 +1,48 @@
+{
+  "name": "casper-contract",
+  "version": "0.0.1",
+  "description": "ERC20-compliant token contract used in Casper project",
+  "main": "truffle.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "truffle test --network development",
+    "sollint": "solium --dir ./contracts && solium --dir ./test/helpers",
+    "sollint:fix": "solium --fix --dir ./contracts && solium --fix --dir ./test/helpers",
+    "eslint": "eslint ./test/**/*.js ./util/**/*.js",
+    "eslint:fix": "eslint --fix ./**/*.js ./test/**/*.js",
+    "lint": "eslint ./test/**/*.js ./util/**/*.js && solium --dir ./contracts",
+    "lint:fix": "eslint --fix ./**/*.js ./test/**/*.js && solium --dir ./contracts --fix",
+    "lint:watch": "esw --quiet ./test/**/*.js ./util/**/*.js --no-ignore -w",
+    "precommit": "npm run lint && npm test",
+    "prepush": "npm run lint && npm test",
+    "complie": "npm run truffle compile"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Casper-dev/contract.git"
+  },
+  "dependencies": {
+    "bignumber.js": "^5.0.0",
+    "port-pid": "0.0.6",
+    "promise-sequential": "^1.1.1",
+    "ps-node": "^0.1.6",
+    "solc": "^0.4.18",
+    "truffle-wallet-provider": "0.0.5",
+    "web3": "^1.0.0-beta.26"
+  },
+  "devDependencies": {
+    "child_process": "^1.0.2",
+    "eslint": "^4.12.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-watch": "^3.1.3",
+    "ethereumjs-testrpc": "^6.0.3",
+    "husky": "^0.14.3",
+    "process": "^0.11.10",
+    "truffle": "^4.0.1",
+    "util": "^0.10.3",
+    "solium": "^1.0.9"
+  }
+}

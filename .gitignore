@@ -1,0 +1,7 @@
+node_modules/*
+*.ignore
+.idea
+.package-lock.json
+build/
+artifacts/
+.env
